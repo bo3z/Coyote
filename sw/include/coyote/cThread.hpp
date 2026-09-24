@@ -96,13 +96,7 @@ protected:
 	/// Dedicated thread for handling user interrupts
 	std::thread event_thread;
 
-	/**
-	 * vFPGA config registers, if AVX is enabled, as implemented in cnfg_slave_avx.sv; used mainly for starting DMA commands
-	 * NOTE: Always declared (regardless of EN_AVX) as an opaque pointer, and cast to volatile __m256i* only where
-	 * it is used (guarded by #ifdef EN_AVX in cThread.cpp). This keeps the layout of cThread independent of EN_AVX,
-	 * so std::make_shared/std::allocate_shared called from code built without EN_AVX still computes the correct
-	 * sizeof(cThread) that matches the compiled library (see GitHub issue #139).
-	 */
+	/// vFPGA config registers, if AVX is enabled, as implemented in cnfg_slave_avx.sv; used mainly for starting DMA commands
 	volatile void *cnfg_reg_avx = { 0 };
 
 	/// vFPGA config registers, if AVX is disabled, as implemented in cnfg_slave.sv; used mainly for starting DMA commands
